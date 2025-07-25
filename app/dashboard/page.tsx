@@ -7,6 +7,15 @@ import ShortUrlSchema from "@/lib/db/Schema/ShortUrlSchema";
 import { format } from "date-fns";
 
 
+interface ShortUrl {
+  _id: string;
+  shortUrl: string;
+  originalUrl: string;
+  createdAt: string | Date;
+  Owner: string;
+  clicks?: number;
+}
+
 export default async function DashboardPage() {
   const session = await auth();
   const userEmail = session?.user?.email;
@@ -28,15 +37,15 @@ export default async function DashboardPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Short ID</TableHead>
-                <TableHead>Original URL</TableHead>
-                <TableHead>Created On</TableHead>
-                <TableHead>Owner</TableHead>
-                <TableHead>Clicks</TableHead>
+                <TableCell>Short URL</TableCell>
+                <TableCell>Original URL</TableCell>
+                <TableCell>Created At</TableCell>
+                <TableCell>Owner</TableCell>
+                <TableCell>Clicks</TableCell>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {urls.map((url: any) => (
+              {(urls as ShortUrl[]).map((url) => (
                 <TableRow key={url._id}>
                   <TableCell>
                     <a
